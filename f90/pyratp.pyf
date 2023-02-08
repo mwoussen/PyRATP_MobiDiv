@@ -1,0 +1,566 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module pyratp ! in 
+    interface  ! in :pyratp
+        module constant_values ! in :pyratp:mod_Cocnstant_ValuesF2PY.f90
+            real :: rho
+            real :: lambda
+            real :: sigma
+            real :: cp
+            real :: gamma
+            real :: r
+            real :: pi
+            subroutine cv_set ! in :pyratp:mod_Cocnstant_ValuesF2PY.f90:constant_values
+            end subroutine cv_set
+        end module constant_values
+        module grid3d ! in :pyratp:mod_Grid3DF2PY_64bit.f90
+            character*6 :: spec_grid
+            character*6 :: spec_gfill
+            integer :: njx
+            integer :: njy
+            integer :: njz
+            real :: dx
+            real :: dy
+            real, allocatable,dimension(:) :: dz
+            real :: xorig
+            real :: yorig
+            real :: zorig
+            real :: latitude
+            real :: longitude
+            real :: timezone
+            real :: orientation
+            integer :: idecaly
+            integer :: nsol
+            integer :: nblosoil
+            real, allocatable,dimension(:) :: rs
+            real :: total_ground_area
+            integer(kind=8) :: nveg
+            integer :: nent
+            integer :: nemax
+            real, allocatable,dimension(:,:) :: s_vt_vx
+            real, allocatable,dimension(:) :: s_vx
+            real, allocatable,dimension(:) :: s_vt
+            real :: s_canopy
+            real, allocatable,dimension(:) :: volume_canopy
+            integer, allocatable,dimension(:) :: voxel_canopy
+            real :: n_canopy
+            integer, allocatable,dimension(:,:,:) :: kxyz
+            integer, allocatable,dimension(:) :: numx
+            integer, allocatable,dimension(:) :: numy
+            integer, allocatable,dimension(:) :: numz
+            integer, allocatable,dimension(:) :: nje
+            integer, allocatable,dimension(:,:) :: nume
+            real, allocatable,dimension(:,:) :: leafareadensity
+            real, allocatable,dimension(:,:) :: n_detailed
+            integer :: int_scattering
+            integer :: int_isolated_box
+            logical :: scattering
+            logical :: isolated_box
+            subroutine g3d_destroy ! in :pyratp:mod_Grid3DF2PY_64bit.f90:grid3d
+            end subroutine g3d_destroy
+        end module grid3d
+        module skyvault ! in :pyratp:mod_SkyvaultF2PY.f90
+            integer :: ndir
+            real, allocatable,dimension(:) :: hmoy
+            real, allocatable,dimension(:) :: azmoy
+            real, allocatable,dimension(:) :: omega
+            real, allocatable,dimension(:) :: pc
+            subroutine sv_read(fname) ! in :pyratp:mod_SkyvaultF2PY.f90:skyvault
+                use constant_values
+                character*28 :: fname
+            end subroutine sv_read
+            subroutine sv_destroy ! in :pyratp:mod_SkyvaultF2PY.f90:skyvault
+            end subroutine sv_destroy
+        end module skyvault
+        module vegetation_types ! in :pyratp:mod_Vegetation_TypesF2PY.f90
+            character*6 :: spec_vegetation
+            real, allocatable,dimension(:) :: mu
+            integer :: nbinclimax
+            integer, allocatable,dimension(:) :: nbincli
+            integer :: nbinclivox
+            real, allocatable,dimension(:,:) :: distinc
+            real, allocatable,dimension(:,:,:) :: distincvox
+            logical :: pervoxel
+            integer :: nblomin
+            integer, allocatable,dimension(:) :: nblo
+            real, allocatable,dimension(:,:) :: rf
+            real, allocatable,dimension(:,:) :: aga
+            real, allocatable,dimension(:,:) :: agsn
+            integer, allocatable,dimension(:) :: i_gspar
+            real, allocatable,dimension(:,:) :: agspar
+            integer, allocatable,dimension(:) :: i_gsca
+            real, allocatable,dimension(:,:) :: agsca
+            integer, allocatable,dimension(:) :: i_gslt
+            real, allocatable,dimension(:,:) :: agslt
+            real, allocatable,dimension(:,:) :: agsvpd
+            real, allocatable,dimension(:,:) :: avcmaxn
+            real, allocatable,dimension(:,:) :: ajmaxn
+            real, allocatable,dimension(:,:) :: ardn
+            integer, allocatable,dimension(:) :: ismine
+            real, allocatable,dimension(:) :: epm
+            subroutine vt_read(nent,pathvegetation,fnamevegetation) ! in :pyratp:mod_Vegetation_TypesF2PY.f90:vegetation_types
+                integer :: nent
+                character*17 :: pathvegetation
+                character*28 :: fnamevegetation
+            end subroutine vt_read
+            subroutine vt_destroy ! in :pyratp:mod_Vegetation_TypesF2PY.f90:vegetation_types
+            end subroutine vt_destroy
+        end module vegetation_types
+        module dir_interception ! in :pyratp:mod_Dir_InterceptionF2PY.f90
+            real :: dpx
+            real :: dpy
+            real, allocatable,dimension(:,:) :: star_vt_vx
+            real, allocatable,dimension(:) :: star_vx
+            real, allocatable,dimension(:) :: star_vt
+            real :: star_canopy
+            real, allocatable,dimension(:,:,:) :: s_detailed
+            real, allocatable,dimension(:,:) :: s_ss_vt
+            real dimension(2) :: s_ss
+            real, allocatable,dimension(:,:) :: share
+            real, allocatable,dimension(:) :: xk
+            real, allocatable,dimension(:) :: rka
+            real, allocatable,dimension(:,:) :: rkavox
+            real, allocatable,dimension(:) :: riv
+            real, allocatable,dimension(:) :: rtv
+            real, allocatable,dimension(:) :: ris
+            real, allocatable,dimension(:,:) :: ffvvb
+            real, allocatable,dimension(:,:) :: ffsvb
+            real, allocatable,dimension(:) :: ffcvb
+            real, allocatable,dimension(:,:) :: ffvsb
+            real, allocatable,dimension(:) :: ffcsb
+            subroutine di_doall(hmoy0,azmoy0,omega0,dpx0,dpy0,scatt0,ib0) ! in :pyratp:mod_Dir_InterceptionF2PY.f90:dir_interception
+                use constant_values
+                use grid3d
+                use vegetation_types
+                real :: hmoy0
+                real :: azmoy0
+                real :: omega0
+                real :: dpx0
+                real :: dpy0
+                logical :: scatt0
+                logical :: ib0
+            end subroutine di_doall
+            subroutine beampath(oax,oay,oaz,x0,y0,z0,omega0) ! in :pyratp:mod_Dir_InterceptionF2PY.f90:dir_interception
+                use constant_values
+                use grid3d
+                use vegetation_types
+                real :: oax
+                real :: oay
+                real :: oaz
+                real :: x0
+                real :: y0
+                real :: z0
+                real :: omega0
+            end subroutine beampath
+            subroutine di_destroy ! in :pyratp:mod_Dir_InterceptionF2PY.f90:dir_interception
+            end subroutine di_destroy
+        end module dir_interception
+        module hemi_interception ! in :pyratp:mod_Hemi_InterceptionF2PY.f90
+            real, allocatable,dimension(:,:) :: starsky_vt_vx
+            real, allocatable,dimension(:) :: starsky_vx
+            real, allocatable,dimension(:) :: starsky_vt
+            real :: starsky_canopy
+            real, allocatable,dimension(:,:) :: rdiv
+            real, allocatable,dimension(:,:) :: rdtv
+            real, allocatable,dimension(:) :: rdis
+            real, allocatable,dimension(:,:,:,:) :: ffvv
+            real, allocatable,dimension(:,:,:) :: ffsv
+            real, allocatable,dimension(:,:) :: ffcv
+            real, allocatable,dimension(:,:,:) :: ffvs
+            real, allocatable,dimension(:) :: ffcs
+            subroutine hi_doall(dpx0,dpy0,ib0) ! in :pyratp:mod_Hemi_InterceptionF2PY.f90:hemi_interception
+                use constant_values
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                real :: dpx0
+                real :: dpy0
+                logical :: ib0
+            end subroutine hi_doall
+            subroutine hi_destroy ! in :pyratp:mod_Hemi_InterceptionF2PY.f90:hemi_interception
+            end subroutine hi_destroy
+        end module hemi_interception
+        module micrometeo ! in :pyratp:mod_MicrometeoF2PY.f90
+            character*6 :: spec_mmeteo
+            integer :: ntime
+            integer :: nbli
+            real :: day
+            real :: hour
+            real, allocatable,dimension(:) :: glob
+            real, allocatable,dimension(:) :: diff
+            real, allocatable,dimension(:) :: direct
+            real, allocatable,dimension(:) :: dsg
+            real :: ratmos
+            real :: tsol
+            real :: taref
+            real :: earef
+            real :: caref
+            real :: hrsol
+            real, allocatable,dimension(:) :: uref
+            real, allocatable,dimension(:,:) :: tabmeteo
+            integer :: ntimemax
+            logical :: endmeteo
+            logical :: truesolartime
+            subroutine mm_initiate ! in :pyratp:mod_MicrometeoF2PY.f90:micrometeo
+                use grid3d
+                use vegetation_types
+            end subroutine mm_initiate
+            subroutine mm_read(ntime,nbli) ! in :pyratp:mod_MicrometeoF2PY.f90:micrometeo
+                use grid3d
+                use vegetation_types
+                integer :: ntime
+                integer :: nbli
+            end subroutine mm_read
+            subroutine mm_destroy ! in :pyratp:mod_MicrometeoF2PY.f90:micrometeo
+            end subroutine mm_destroy
+        end module micrometeo
+        module shortwave_balance ! in :pyratp:mod_Shortwave_BalanceF2PY.f90
+            real :: hdeg
+            real :: azdeg
+            real, allocatable,dimension(:,:,:,:) :: ra_detailed
+            real, allocatable,dimension(:,:,:) :: parirrad
+            real, allocatable,dimension(:,:,:) :: swra_detailed
+            real, allocatable,dimension(:) :: rareflected
+            real, allocatable,dimension(:) :: ratransmitted
+            real, allocatable,dimension(:,:) :: raefficiency_vt
+            real, allocatable,dimension(:,:) :: xint1v
+            real, allocatable,dimension(:) :: xint1s
+            real, allocatable,dimension(:,:) :: xintav
+            real, allocatable,dimension(:) :: xintas
+            real, allocatable,dimension(:,:) :: spar
+            subroutine swrb_doall ! in :pyratp:mod_Shortwave_BalanceF2PY.f90:shortwave_balance
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+            end subroutine swrb_doall
+            subroutine sundirection(sunheight,sunazimuth,latitude,longitude,timezone,day,hour,truesolartime) ! in :pyratp:mod_Shortwave_BalanceF2PY.f90:shortwave_balance
+                real :: sunheight
+                real :: sunazimuth
+                real :: latitude
+                real :: longitude
+                real :: timezone
+                real :: day
+                real :: hour
+                logical :: truesolartime
+            end subroutine sundirection
+            subroutine directbeam_interception(day,hour,truesolartime) ! in :pyratp:mod_Shortwave_BalanceF2PY.f90:shortwave_balance
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                real :: day
+                real :: hour
+                logical :: truesolartime
+            end subroutine directbeam_interception
+            subroutine spectral_radiation_balance(iblo) ! in :pyratp:mod_Shortwave_BalanceF2PY.f90:shortwave_balance
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+                integer :: iblo
+            end subroutine spectral_radiation_balance
+            subroutine swrb_destroy ! in :pyratp:mod_Shortwave_BalanceF2PY.f90:shortwave_balance
+            end subroutine swrb_destroy
+        end module shortwave_balance
+        module energy_balance ! in :pyratp:mod_Energy_BalanceF2PY.f90
+            real, allocatable,dimension(:,:) :: e_vt_vx
+            real, allocatable,dimension(:) :: e_vx
+            real, allocatable,dimension(:) :: e_vt
+            real, allocatable,dimension(:,:) :: e_ss_vt
+            real dimension(2) :: e_ss
+            real :: e_canopy
+            real :: h_canopy
+            real, allocatable,dimension(:,:,:) :: ts
+            real, allocatable,dimension(:,:,:) :: ts_iter
+            real, allocatable,dimension(:,:) :: sts
+            real, allocatable,dimension(:,:,:) :: gs
+            real, allocatable,dimension(:,:,:) :: rco2
+            real, allocatable,dimension(:,:,:) :: e
+            real, private,parameter,optional :: xtoler_def=1e-06
+            real, private,parameter,optional :: toler_def=1e-06
+            integer, private,parameter,optional :: maxiter_def=100
+            integer, private,parameter,optional :: printmod_def=-1
+            subroutine eb_doall_mine ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                use constant_values
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+                use shortwave_balance
+            end subroutine eb_doall_mine
+            subroutine eb_doall ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                use constant_values
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+                use shortwave_balance
+            end subroutine eb_doall
+            subroutine eb_doall2 ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                use constant_values
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+                use shortwave_balance
+            end subroutine eb_doall2
+            subroutine jarvis_stomata(jent,leaf_nitrogen,par_irrad,ca,hrsol,leaf_temp,vpdair,ga,rsi,drsi) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                use vegetation_types
+                integer :: jent
+                real :: leaf_nitrogen
+                real :: par_irrad
+                real :: ca
+                real :: hrsol
+                real :: leaf_temp
+                real :: vpdair
+                real :: ga
+                real :: rsi
+                real :: drsi
+            end subroutine jarvis_stomata
+            subroutine eb_destroy ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+            end subroutine eb_destroy
+            function bracketsroot(fa,fb) result (tf) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                real :: fa
+                real :: fb
+                logical :: tf
+            end function bracketsroot
+            function energbilan(rn,sigma,rho,cp,taref,rh,gamma,ga,jent,earef,leaf_nitrogen,par_irrad,caref,hrsol,vpdair,x) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                real :: rn
+                real :: sigma
+                real :: rho
+                real :: cp
+                real :: taref
+                real :: rh
+                real :: gamma
+                real :: ga
+                integer :: jent
+                real :: earef
+                real :: leaf_nitrogen
+                real :: par_irrad
+                real :: caref
+                real :: hrsol
+                real :: vpdair
+                real intent(in) :: x
+                real :: energbilan
+            end function energbilan
+            function convection(rho,cp,taref,rh,x) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                real :: rho
+                real :: cp
+                real :: taref
+                real :: rh
+                real intent(in) :: x
+                real :: convection
+            end function convection
+            function evapotranspi(alpha,ga,jent,earef,leaf_nitrogen,par_irrad,caref,hrsol,vpdair,x) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                real :: alpha
+                real :: ga
+                integer :: jent
+                real :: earef
+                real :: leaf_nitrogen
+                real :: par_irrad
+                real :: caref
+                real :: hrsol
+                real :: vpdair
+                real intent(in) :: x
+                real :: evapotranspi
+            end function evapotranspi
+            function rayoir(sigma,x) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                real :: sigma
+                real intent(in) :: x
+                real :: rayoir
+            end function rayoir
+            subroutine sub_brent(rn,sigma,rho,cp,taref,rh,gamma,ga,jent,earef,leaf_nitrogen,par_irrad,caref,hrsol,vpdair,x,f,a_in,b_in,toler_in,maxiter_in,fa_in,fb_in,xtoler_in,printmod_in) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance
+                real :: rn
+                real :: sigma
+                real :: rho
+                real :: cp
+                real :: taref
+                real :: rh
+                real :: gamma
+                real :: ga
+                integer :: jent
+                real :: earef
+                real :: leaf_nitrogen
+                real :: par_irrad
+                real :: caref
+                real :: hrsol
+                real :: vpdair
+                real intent(out) :: x
+                external f
+                real intent(in) :: a_in
+                real intent(in) :: b_in
+                real, optional,intent(in) :: toler_in
+                integer, optional,intent(in) :: maxiter_in
+                real, optional,intent(in) :: fa_in
+                real, optional,intent(in) :: fb_in
+                real, optional,intent(in) :: xtoler_in
+                integer, optional,intent(in) :: printmod_in
+                interface  ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance:sub_brent
+                    function f(rn,sigma,rho,cp,taref,rh,gamma,ga,jent,earef,leaf_nitrogen,par_irrad,caref,hrsol,vpdair,x) ! in :pyratp:mod_Energy_BalanceF2PY.f90:energy_balance:sub_brent:unknown_interface
+                        real :: rn
+                        real :: sigma
+                        real :: rho
+                        real :: cp
+                        real :: taref
+                        real :: rh
+                        real :: gamma
+                        real :: ga
+                        integer :: jent
+                        real :: earef
+                        real :: leaf_nitrogen
+                        real :: par_irrad
+                        real :: caref
+                        real :: hrsol
+                        real :: vpdair
+                        real intent(in) :: x
+                        real :: f
+                    end function f
+                end interface 
+            end subroutine sub_brent
+        end module energy_balance
+        module photosynthesis ! in :pyratp:mod_PhotosynthesisF2PY.f90
+            real :: kc25
+            real :: ko25
+            real :: specif25
+            real :: dhakc
+            real :: dhako
+            real :: dhaspecif
+            real :: dharespd
+            real :: dhavcmax
+            real :: dhajmax
+            real :: dhdvcmax
+            real :: dhdjmax
+            real :: dsvcmax
+            real :: dsjmax
+            real :: alpha
+            real :: o2
+            real :: ckc
+            real :: cko
+            real :: cspecif
+            real, allocatable,dimension(:,:) :: cvcmax
+            real, allocatable,dimension(:,:) :: cjmax
+            real, allocatable,dimension(:,:) :: crespd
+            real, allocatable,dimension(:,:,:) :: a_detailed
+            real, allocatable,dimension(:,:) :: a_vt_vx
+            real, allocatable,dimension(:) :: a_vx
+            real, allocatable,dimension(:) :: a_vt
+            real, allocatable,dimension(:,:) :: a_ss_vt
+            real dimension(2) :: a_ss
+            real :: a_canopy
+            subroutine farquhar_parameters_set ! in :pyratp:mod_PhotosynthesisF2PY.f90:photosynthesis
+            end subroutine farquhar_parameters_set
+            subroutine farquhar_scaling_factors ! in :pyratp:mod_PhotosynthesisF2PY.f90:photosynthesis
+                use constant_values
+                use grid3d
+                use vegetation_types
+            end subroutine farquhar_scaling_factors
+            subroutine ps_doall ! in :pyratp:mod_PhotosynthesisF2PY.f90:photosynthesis
+                use constant_values
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+                use shortwave_balance
+                use energy_balance
+            end subroutine ps_doall
+            subroutine farquhar_model_1(net_a,crespd0,cvcmax0,cjmax0,rco2pa,leaf_tempk,leaf_par,caref) ! in :pyratp:mod_PhotosynthesisF2PY.f90:photosynthesis
+                use constant_values
+                real :: net_a
+                real :: crespd0
+                real :: cvcmax0
+                real :: cjmax0
+                real :: rco2pa
+                real :: leaf_tempk
+                real :: leaf_par
+                real :: caref
+            end subroutine farquhar_model_1
+            subroutine ps_destroy ! in :pyratp:mod_PhotosynthesisF2PY.f90:photosynthesis
+            end subroutine ps_destroy
+        end module photosynthesis
+        module minerpheno ! in :pyratp:mod_MinerPhenoF2PY.f90
+            real, allocatable,dimension(:) :: tbody
+            real, allocatable,dimension(:) :: dev_rate
+            real, allocatable,dimension(:) :: sum_dev_rate
+            real, allocatable,dimension(:) :: sum_time
+            real, allocatable,dimension(:) :: sum_tair
+            integer, allocatable,dimension(:) :: larvadeath
+            integer, allocatable,dimension(:) :: larvaout
+            real :: sum_taref
+            integer :: nlarvadead
+            integer :: nlarvaout
+            subroutine miph_doall ! in :pyratp:mod_MinerPhenoF2PY.f90:minerpheno
+                use constant_values
+                use grid3d
+                use skyvault
+                use vegetation_types
+                use dir_interception
+                use hemi_interception
+                use micrometeo
+                use shortwave_balance
+                use energy_balance
+            end subroutine miph_doall
+            subroutine miph_allocate ! in :pyratp:mod_MinerPhenoF2PY.f90:minerpheno
+                use grid3d
+            end subroutine miph_allocate
+            subroutine miph_destroy ! in :pyratp:mod_MinerPhenoF2PY.f90:minerpheno
+            end subroutine miph_destroy
+        end module minerpheno
+        module ratp ! in :pyratp:prog_RATP.f90
+            use constant_values
+            use grid3d
+            use skyvault
+            use vegetation_types
+            use dir_interception
+            use hemi_interception
+            use shortwave_balance
+            use micrometeo
+            use energy_balance
+            use photosynthesis
+            use minerpheno
+            integer dimension(100) :: numx_out
+            integer dimension(100) :: numy_out
+            integer dimension(100) :: numz_out
+            integer dimension(100) :: kxyz_out
+            integer, optional :: form_vgx=55
+            integer, optional :: filetypearchi=1
+            integer, optional :: val=1
+            integer, optional :: iterspatial=0
+            integer, optional :: itertree=0
+            character*200 :: fname
+            character(len=17) :: pathresult
+            integer, optional :: nbvoxelveg=1
+            integer, optional :: nbiter=0
+            real, allocatable,dimension(:,:) :: out_time_spatial
+            real, allocatable,dimension(:,:) :: out_time_tree
+            real, allocatable,dimension(:,:) :: out_rayt
+            subroutine do_all_mine ! in :pyratp:prog_RATP.f90:ratp
+            end subroutine do_all_mine
+            subroutine do_all ! in :pyratp:prog_RATP.f90:ratp
+            end subroutine do_all
+            subroutine out_time_destroy ! in :pyratp:prog_RATP.f90:ratp
+            end subroutine out_time_destroy
+            subroutine do_interception ! in :pyratp:prog_RATP.f90:ratp
+            end subroutine do_interception
+            subroutine out_rayt_destroy ! in :pyratp:prog_RATP.f90:ratp
+            end subroutine out_rayt_destroy
+        end module ratp
+    end interface 
+end python module pyratp
+
+! This file was auto-generated with f2py (version:1.20.3).
+! See http://cens.ioc.ee/projects/f2py2e/
