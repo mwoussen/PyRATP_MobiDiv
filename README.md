@@ -6,6 +6,7 @@ RATP: Radiation Absorption, Transpiration and Photosynthesis
 ## Dépendances
 - make
 - gcc 64 bits 
+- Python 3
 - numpy
 - pandas
 - scipy
