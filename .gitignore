@@ -1,1 +1,7 @@
-f90/Release
+*.pyd
+*.so
+*.pyc
+*.pyf
+building
+build
+*.egg-info
