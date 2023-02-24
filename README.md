@@ -29,10 +29,11 @@ RATP: Radiation Absorption, Transpiration and Photosynthesis
 conda create -n myenvname openalea.mtg openalea.plantgl numpy=1.20.3 scipy pandas -c conda-forge -c fredboudon
 ```
 4) On se place dans l'environnement : `conda activate myenvname`
-5) Télécharge le dépôt :
+5) Télécharger le dépôt :
    1) `git clone git@github.com:mwoussen/PyRATP_MobiDiv.git` ou `git clone https://github.com/mwoussen/PyRATP_MobiDiv.git`
    2) `cd PyRATP_MobiDiv`
 6) Installation du package : `make`
+    
     si on veut pouvoir éditer les fichiers sources dans le dossier courant : `make mode=develop`
 7) Nettoyage de l'étape de compilation : `make clean`
 8) Test du package : `python tests/smalltests.py`
