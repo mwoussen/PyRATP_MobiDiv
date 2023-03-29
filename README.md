@@ -6,6 +6,7 @@ RATP: Radiation Absorption, Transpiration and Photosynthesis
 ## Dependencies
 - make
 - gcc 64 bits 
+- Python 3
 - numpy
 - pandas
 - scipy
@@ -13,9 +14,9 @@ RATP: Radiation Absorption, Transpiration and Photosynthesis
 - openalea.mtg
 
 ## Modifications 
-- Installation with make: it compiles fortran part with f2py then installs with setuptools and pip
-- Computing of transmitted radiation in each voxel
-- Intercepted and transmitted radiation among the results
+- Installation with `make`: it compiles fortran part with `f2py` then installs the package with setuptools and pip
+- Compute transmitted radiation for each voxel
+- Intercepted and transmitted radiation among the output results
 - leaf angle distribution for each voxel
 - Local or solar hour option for computing sun position
 - Possibility for external use of the sun computation routine
