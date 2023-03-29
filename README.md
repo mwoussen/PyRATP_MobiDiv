@@ -1,9 +1,9 @@
 # PyRATP (MobiDiv)
-Fork de PyRATP : https://github.com/openalea-incubator/PyRATP
+Fork from PyRATP: https://github.com/openalea-incubator/PyRATP
 
 RATP: Radiation Absorption, Transpiration and Photosynthesis
 
-## Dépendances
+## Dependencies
 - make
 - gcc 64 bits 
 - numpy
@@ -13,33 +13,33 @@ RATP: Radiation Absorption, Transpiration and Photosynthesis
 - openalea.mtg
 
 ## Modifications 
-- Installation avec make : compilation de la partie fortran avec f2py puis installation avec setuptools et pip 
-- Calcul du rayonnement transmis dans chaque voxel
-- Rayonnement intercepté et transmis dans les résultats
-- Distribution des angles foliaires par voxel
-- Paramètre heure locale ou solaire dans le calcul de la position du soleil
-- Utilisation externe de la routine calcul du soleil
+- Installation with make: it compiles fortran part with f2py then installs with setuptools and pip
+- Computing of transmitted radiation in each voxel
+- Intercepted and transmitted radiation among the results
+- leaf angle distribution for each voxel
+- Local or solar hour option for computing sun position
+- Possibility for external use of the sun computation routine
 
-## Exemple d'installation avec conda
-1) installer gcc en 64 bits (MinGW sous Windows)
-2) installer miniconda 64 bits : https://docs.conda.io/en/latest/miniconda.html
-3) Création d'un environnement conda :
+## Installation example with conda
+1) install gcc 64 bits (MinGW with Windows OS)
+2) install miniconda 64 bits: https://docs.conda.io/en/latest/miniconda.html
+3) Create a conda environment:
 ```shell
 conda create -n myenvname openalea.mtg openalea.plantgl numpy=1.20.3 scipy pandas -c conda-forge -c fredboudon
 ```
-4) On se place dans l'environnement : `conda activate myenvname`
-5) Télécharge le dépôt :
-   1) `git clone git@github.com:mwoussen/PyRATP_MobiDiv.git` ou `git clone https://github.com/mwoussen/PyRATP_MobiDiv.git`
+4) set conda in the created environment: `conda activate myenvname`
+5) download the repository: 
+   1) `git clone git@github.com:mwoussen/PyRATP_MobiDiv.git` or `git clone https://github.com/mwoussen/PyRATP_MobiDiv.git`
    2) `cd PyRATP_MobiDiv`
-6) Installation du package : `make`
-    si on veut pouvoir éditer les fichiers sources dans le dossier courant : `make mode=develop`
-7) Nettoyage de l'étape de compilation : `make clean`
-8) Test du package : `python tests/smalltests.py`
+6) install the package: `make`
+    if you want to edit the source files in the current folder : `make mode=develop`
+7) clean the compilation step: `make clean`
+8) test the package: `python tests/smalltests.py`
 
-## TroubleShootings
-### Installation sous Windows
-- PyRATP_Mobidiv fonctionne uniquement en 64 bits
-- A priori, l'installation ne fonctionne pas pour numpy >= 1.23
-- Erreur compilation : `undefined reference to __intrinsic_setjmpex l.3335 pyratpmodule.c` 
-    1) remplacer `#include<setjmp.h>` en `#include<setjmpex.h>` dans le fichier `pyratpmodule.c` (dossier building)
-    2) relancer la compilation `f2py -c ...` l.58 du Makefile
+## Troubleshootings
+### Installation under Windows OS
+- PyRATP_Mobidiv works only in 64 bits
+- It seems like the installation doesn't work with numpy >= 1.23
+- Compilation error: `undefined reference to __intrinsic_setjmpex l.3335 pyratpmodule.c` 
+    1) replace `#include<setjmp.h>` with `#include<setjmpex.h>` in the file `pyratpmodule.c` (building folder)
+    2) relauch the compilation `f2py -c ...` l.58 in the Makefile 

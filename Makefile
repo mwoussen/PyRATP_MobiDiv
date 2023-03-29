@@ -44,20 +44,20 @@ FORTRANFILES := f90/mod_Cocnstant_ValuesF2PY.f90  \
 				f90/prog_RATP.f90
 
 
-# installation du package Python dans l'interpréteur
+# package installation in the current Python interpreter
 install : pyratpmobidiv/pyratp$(EXTTARGET)
 	pip install $(INSTALLOPT) .
 
-# copie dans les source python et simplifie le nom de la librairie
+# copie within the python sources and simplify library's name
 pyratpmobidiv/pyratp$(EXTTARGET): pyratp.*$(EXTTARGET)
 	$(MOVECMD) pyratp.*$(EXTTARGET) pyratpmobidiv/pyratp$(EXTTARGET)
 
-# compilation de la librairie	
+# library compilation
 pyratp.*$(EXTTARGET): pyratp.pyf
 	$(MKDIRBUILD)
 	f2py -c --build-dir $(BUILDFOLDER) $(OPTCOMPILE) --fcompiler=gnu95 pyratp.pyf $(FORTRANFILES)
 
-# création de l'entete
+# creation of the header
 pyratp.pyf: 
 	f2py -m pyratp --overwrite-signature -h $@ $(FORTRANFILES)
 
